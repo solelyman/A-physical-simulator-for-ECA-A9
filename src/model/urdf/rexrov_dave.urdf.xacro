@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<robot name="rexrov" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="namespace" default="rexrov"/>
+  <xacro:arg name="sim_plugin_prefix" default="ignition-gazebo"/>
+  <xacro:arg name="sim_plugin_namespace" default="ignition::gazebo"/>
+  <xacro:property name="namespace" value="$(arg namespace)"/>
+  <xacro:property name="sim_plugin_prefix" value="$(arg sim_plugin_prefix)"/>
+  <xacro:property name="sim_plugin_namespace" value="$(arg sim_plugin_namespace)"/>
+  <xacro:property name="mesh_path" value="file://$(find model)/mesh"/>
+
+  <!-- RexROV values copied from uuv_simulator's rexrov model.  The collision
+       box is deliberately simple: Fortress's buoyancy system integrates it
+       reliably, while the original DAE remains the visible vehicle. -->
+  <link name="base_link">
+    <visual><geometry><mesh filename="${mesh_path}/RexROV_no_props.dae" scale="1 1 1"/></geometry></visual>
+    <collision>
+      <origin xyz="0 0 0"/>
+      <geometry><box size="2.65 1.40 0.495"/></geometry>
+    </collision>
+    <inertial>
+      <!-- 1.838 m^3 * 1025 kg/m^3: neutral underwater trim for the
+           Fortress buoyancy system (the original UUV value is slightly
+           positive and therefore rises to the free surface). -->
+      <mass value="1886.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="525.39" ixy="1.44" ixz="33.41" iyy="794.20" iyz="2.6" izz="691.23"/>
+    </inertial>
+  </link>
+
+  <link name="thruster_link">
+    <inertial><mass value="0.01"/><inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/></inertial>
+  </link>
+  <joint name="thruster_joint" type="continuous">
+    <parent link="base_link"/><child link="thruster_link"/>
+    <origin xyz="-1.15 0 0"/><axis xyz="1 0 0"/>
+  </joint>
+
+  <gazebo reference="base_link"><self_collide>false</self_collide></gazebo>
+  <gazebo>
+    <plugin filename="${sim_plugin_prefix}-hydrodynamics-system" name="${sim_plugin_namespace}::systems::Hydrodynamics">
+      <link_name>base_link</link_name><water_density>1025</water_density>
+      <xDotU>0</xDotU><yDotV>0</yDotV><zDotW>0</zDotW><kDotP>0</kDotP><mDotQ>0</mDotQ><nDotR>0</nDotR>
+      <xU>-120</xU><yV>-400</yV><zW>-500</zW><kP>-240</kP><mQ>-420</mQ><nR>-520</nR>
+      <xUabsU>-80</xUabsU><yVabsV>-300</yVabsV><zWabsW>-350</zWabsW><kPabsP>-180</kPabsP><mQabsQ>-300</mQabsQ><nRabsR>-380</nRabsR>
+      <flow_velocity_topic>ocean_current</flow_velocity_topic>
+    </plugin>
+    <plugin filename="${sim_plugin_prefix}-thruster-system" name="${sim_plugin_namespace}::systems::Thruster">
+      <namespace>${namespace}</namespace><joint_name>thruster_joint</joint_name>
+      <thrust_coefficient>0.002</thrust_coefficient><fluid_density>1025</fluid_density>
+      <propeller_diameter>0.30</propeller_diameter><velocity_control>false</velocity_control>
+      <use_angvel_cmd>false</use_angvel_cmd><max_thrust_cmd>3000</max_thrust_cmd><min_thrust_cmd>-3000</min_thrust_cmd>
+    </plugin>
+    <plugin filename="${sim_plugin_prefix}-odometry-publisher-system" name="${sim_plugin_namespace}::systems::OdometryPublisher">
+      <dimensions>3</dimensions><odom_frame>${namespace}/odom</odom_frame><robot_base_frame>${namespace}/base_link</robot_base_frame><odom_publish_frequency>30</odom_publish_frequency>
+    </plugin>
+    <plugin filename="${sim_plugin_prefix}-joint-state-publisher-system" name="${sim_plugin_namespace}::systems::JointStatePublisher"/>
+  </gazebo>
+</robot>

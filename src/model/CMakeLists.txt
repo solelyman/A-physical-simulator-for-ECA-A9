@@ -7,7 +7,6 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
 
 # Install directories
 install(DIRECTORY launch
@@ -19,10 +18,6 @@ install(DIRECTORY urdf
 )
 
 install(DIRECTORY mesh
-  DESTINATION share/${PROJECT_NAME}
-)
-
-install(DIRECTORY config
   DESTINATION share/${PROJECT_NAME}
 )
 

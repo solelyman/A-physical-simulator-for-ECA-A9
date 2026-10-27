@@ -1,0 +1,2 @@
+# The repository keeps a legacy top-level copy of the model for reference.
+# The buildable ROS 2 package is src/model.

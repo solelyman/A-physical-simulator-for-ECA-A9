@@ -1,0 +1,30 @@
+# RexROV parameters ported from uuv_simulator's rexrov.gazebo.xacro.
+# This file is intentionally separate from the ECA A9 vehicle parameters.
+/**:
+  ros__parameters:
+    vehicle_model:
+      mass: 1862.87
+      volume: 1.83826
+      rho: 1028.0
+      gravity: 9.81
+      cob_z: 0.30
+      inertia_xx: 525.39
+      inertia_xy: 1.44
+      inertia_xz: 33.41
+      inertia_yy: 794.20
+      inertia_yz: 2.60
+      inertia_zz: 691.23
+      added_mass:
+        - [779.79, -6.8773, -103.32, 8.5426, -165.54, -7.8033]
+        - [-6.8773, 1222.0, 51.29, 409.44, -5.8488, 62.726]
+        - [-103.32, 51.29, 3659.9, 6.1112, -386.42, 10.774]
+        - [8.5426, 409.44, 6.1112, 534.9, -10.027, 21.019]
+        - [-165.54, -5.8488, -386.42, -10.027, 842.69, -1.1162]
+        - [-7.8033, 62.726, 10.775, 21.019, -1.1162, 224.32]
+      linear_damping: [-74.82, -69.48, -728.4, -268.8, -309.77, -105.0]
+      quadratic_damping: [-748.22, -992.53, -1821.01, -672.0, -774.44, -523.27]
+    demo:
+      target_speed: 0.25
+      target_depth_start: -5.0
+      target_depth_end: -20.0
+      compact_spacing: 10.0

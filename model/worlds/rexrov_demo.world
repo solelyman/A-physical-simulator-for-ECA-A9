@@ -1,0 +1,15 @@
+<sdf version="1.9">
+  <world name="rexrov_demo">
+    <gravity>0 0 -9.81</gravity>
+    <physics name="1ms" type="dart"><max_step_size>0.001</max_step_size><real_time_factor>1.0</real_time_factor></physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-buoyancy-system" name="ignition::gazebo::systems::Buoyancy">
+      <graded_buoyancy><default_density>1025</default_density><density_change><above_depth>0</above_depth><density>1</density></density_change></graded_buoyancy>
+    </plugin>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-contact-system" name="ignition::gazebo::systems::Contact"/>
+    <light type="directional" name="sun"><pose>0 0 50 0 0 0</pose><direction>0.2 0.2 -1</direction></light>
+    <model name="seafloor"><static>true</static><link name="link"><collision name="collision"><geometry><box><size>100 100 0.2</size></box></geometry><pose>0 0 -20 0 0 0</pose></collision><visual name="visual"><geometry><box><size>100 100 0.2</size></box></geometry><pose>0 0 -20 0 0 0</pose><material><ambient>0.25 0.18 0.1 1</ambient></material></visual></link></model>
+  </world>
+</sdf>

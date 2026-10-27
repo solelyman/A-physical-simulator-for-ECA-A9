@@ -1,0 +1,119 @@
+<sdf version="1.9">
+  <world name="dave_ocean_waves_fixed">
+    <gravity>0 0 -9.81</gravity>
+    <scene>
+      <ambient>0.2 0.2 0.2 1.0</ambient>
+      <shadows>1</shadows>
+      <sky>
+        <clouds>
+          <speed>12</speed>
+        </clouds>
+      </sky>
+    </scene>
+    <physics name="1ms" type="dart">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-buoyancy-system" name="ignition::gazebo::systems::Buoyancy">
+      <!-- Match the original project's water / air split: seawater below
+           z=0, air above it. -->
+      <graded_buoyancy>
+        <default_density>1025</default_density>
+        <density_change>
+          <above_depth>0</above_depth>
+          <density>1</density>
+        </density_change>
+      </graded_buoyancy>
+    </plugin>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+    <plugin filename="ignition-gazebo-contact-system" name="ignition::gazebo::systems::Contact"/>
+    <!-- <spherical_coordinates>
+      <latitude_deg>56.71897669633431</latitude_deg>
+      <longitude_deg>3.515625</longitude_deg>
+    </spherical_coordinates> -->
+    <light type="directional" name="sun1">
+      <pose>50 0 150 0 0 0</pose>
+      <diffuse>1 1 1 1</diffuse>
+      <specular>0.1 0.1 0.1 1</specular>
+      <direction>0.3 0.3 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="directional" name="sun_diffuse">
+      <pose>-50 0 -150 0 0 0</pose>
+      <diffuse>0.6 0.6 0.6 1</diffuse>
+      <specular>0 0 0 1</specular>
+      <direction>-0.3 -0.3 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="directional" name="sun_diffuse_1">
+      <pose>-100 500 -20 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <direction>-1 -1 0</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <light type="directional" name="sun_diffuse_2">
+      <pose>-150 -130 50 0 0 0</pose>
+      <diffuse>0.6 0.6 0.6 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>0.5 0.5 -1</direction>
+      <cast_shadows>false</cast_shadows>
+    </light>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/North East Down frame</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/OpenRobotics/models/Coast Water</uri>
+    </include>
+    <include>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>0 0 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_n</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>100 0 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_s</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>-100 0 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_e</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>0 100 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_w</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>0 -100 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_ne</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>100 100 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_nw</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>100 -100 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_se</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>-100 100 -100 0 0 0</pose>
+    </include>
+    <include>
+      <name>sand_sw</name>
+      <uri>https://fuel.gazebosim.org/1.0/hmoyen/models/Sand Heightmap</uri>
+      <pose>-100 -100 -100 0 0 0</pose>
+    </include>
+  </world>
+</sdf>

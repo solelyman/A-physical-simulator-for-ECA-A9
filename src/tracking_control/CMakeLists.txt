@@ -14,17 +14,11 @@ find_package(visualization_msgs REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
 
-add_executable(dynamic_node_test src/dynamic_node_test.cpp)
-ament_target_dependencies(dynamic_node_test rclcpp nav_msgs visualization_msgs tf2)
 add_executable(sf_local_tracking src/sf_local_tracking.cpp)
 ament_target_dependencies(sf_local_tracking rclcpp geometry_msgs nav_msgs tf2 tf2_ros)
 
 add_executable(thruster_allocator src/thruster_allocator.cpp)
-ament_target_dependencies(thruster_allocator rclcpp geometry_msgs std_msgs)
-
-add_executable(simulator src/simulator.cpp)
-ament_target_dependencies(simulator rclcpp geometry_msgs nav_msgs tf2 tf2_ros)
-
+ament_target_dependencies(thruster_allocator rclcpp geometry_msgs nav_msgs std_msgs)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -39,7 +33,7 @@ if(BUILD_TESTING)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-install(TARGETS dynamic_node_test sf_local_tracking simulator thruster_allocator
+install(TARGETS sf_local_tracking thruster_allocator
       DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY config launch

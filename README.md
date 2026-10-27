@@ -1,13 +1,13 @@
 # ECA A9 Multi-AUV Formation Demo
 
-A Gazebo Harmonic multi-AUV simulation demo for ECA A9, including formation planning, tracking control, and ocean-current prediction.
+A ROS 2 Humble / Gazebo Fortress simulation demo for ECA A9 and RexROV, including formation planning, tracking control, and ocean-current prediction.
 
 ---
 
 ## Tech Stack
 
-![ROS 2 Jazzy](https://img.shields.io/badge/ROS%202-Jazzy-22314E?logo=ros&logoColor=white)
-![Gazebo Harmonic](https://img.shields.io/badge/Gazebo-Harmonic-8A2BE2)
+![ROS 2 Humble](https://img.shields.io/badge/ROS%202-Humble-22314E?logo=ros&logoColor=white)
+![Gazebo Fortress](https://img.shields.io/badge/Gazebo-Fortress-8A2BE2)
 ![Project DAVE](https://img.shields.io/badge/Project-DAVE-0A7E8C)
 ![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=c%2B%2B&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
@@ -23,6 +23,9 @@ cd ~/your_ws
 colcon build --packages-select auv_leaders_planner tracking_control model
 source install/setup.bash
 ros2 launch auv_leaders_planner leaders_planner.launch.py gui:=true rviz:=true
+
+# RexROV single-vehicle ocean demonstration
+ros2 launch model start_rexrov.launch.py gui:=true
 ```
 
 ---
@@ -54,14 +57,16 @@ ros2 launch auv_leaders_planner leaders_planner.launch.py gui:=true rviz:=true
 │   │   └── launch/
 │   │       └── start_control.launch.py
 │   │
-│   ├── model/                        # ECA A9 model + Gazebo world
+│   ├── model/                        # ECA A9 / RexROV models + Gazebo worlds
 │   │   ├── urdf/
 │   │   │   ├── eca_a9_dave.urdf.xacro
 │   │   │   └── sensor.xacro
 │   │   ├── worlds/
-│   │   │   └── dave_ocean_waves_fixed.world
+│   │   │   ├── dave_ocean_waves_fixed.world
+│   │   │   └── dave_ocean_waves_fortress.world
 │   │   ├── launch/
-│   │   │   └── start_dave.launch.py
+│   │   │   ├── start_dave.launch.py
+│   │   │   └── start_rexrov.launch.py
 │   │   ├── mesh/
 │   │   └── sensor/
 │   │
@@ -84,6 +89,8 @@ ros2 launch auv_leaders_planner leaders_planner.launch.py gui:=true rviz:=true
 
 > The current launch file expects a local DAVE installation. Before running, check the `dave_prefix` in `leaders_planner.launch.py`, or set the `DAVE_WS_PATH` environment variable.
 
+The RexROV launch is a Humble/Fortress port of the RexROV geometry and parameters from UUV Simulator. The original ROS 1/Gazebo Classic plugins are not loaded directly; the model uses Fortress's installed buoyancy, hydrodynamics, thruster, and odometry systems.
+
 ---
 
 ## Key Parameters
@@ -104,7 +111,7 @@ ros2 launch auv_leaders_planner leaders_planner.launch.py gui:=true rviz:=true
 
 ### 1. Why does Gazebo or the world fail to launch?
 Make sure that:
-- ROS 2 Jazzy and Gazebo Harmonic are installed correctly
+- ROS 2 Humble and Gazebo Fortress are installed correctly
 - the DAVE workspace is built
 - `dave_prefix` or `DAVE_WS_PATH` points to the correct DAVE installation path
 
