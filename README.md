@@ -48,6 +48,14 @@ The RexROV demo starts in the DAVE ocean world at approximately 5 m depth. It us
 
 To stop Gazebo, press `Ctrl+C` in the launch terminal.
 
+### Demonstration GIFs
+
+The first recording shows the ocean scene at 2× speed. The second shows the RexROV motion demo.
+
+![RexROV ocean scene, 2× speed](docs/media/rexrov_ocean_2x.gif)
+
+![RexROV motion demo](docs/media/rexrov_motion.gif)
+
 ---
 
 ## Project Structure
