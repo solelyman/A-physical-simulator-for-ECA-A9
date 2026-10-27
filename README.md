@@ -16,6 +16,22 @@ A ROS 2 Humble / Gazebo Fortress simulation demo for ECA A9 and RexROV, includin
 
 ---
 
+## Prerequisites
+
+- Ubuntu 22.04
+- ROS 2 Humble
+- Gazebo Fortress (`ign gazebo`)
+- `ros_gz_sim`, `xacro`, and the standard ROS 2 build tools
+- Project DAVE is required by the original ECA A9 planner launch; the standalone RexROV demo uses the Fortress plugins already installed with Gazebo.
+
+This branch is the Humble port:
+
+```bash
+git clone -b humble-rexrov-migration https://github.com/solelyman/A-physical-simulator-for-ECA-A9.git eca_a9_ws
+cd eca_a9_ws
+source /opt/ros/humble/setup.bash
+```
+
 ## Quick Start
 
 ```bash
@@ -27,6 +43,10 @@ ros2 launch auv_leaders_planner leaders_planner.launch.py gui:=true rviz:=true
 # RexROV single-vehicle ocean demonstration
 ros2 launch model start_rexrov.launch.py gui:=true
 ```
+
+The RexROV demo starts in the DAVE ocean world at approximately 5 m depth. It uses a neutral-buoyancy collision volume and publishes model odometry. To run headless, use `gui:=false`; to use the small local test world, pass `world_path:=.../src/model/worlds/rexrov_demo.world`.
+
+To stop Gazebo, press `Ctrl+C` in the launch terminal.
 
 ---
 
@@ -60,6 +80,7 @@ ros2 launch model start_rexrov.launch.py gui:=true
 │   ├── model/                        # ECA A9 / RexROV models + Gazebo worlds
 │   │   ├── urdf/
 │   │   │   ├── eca_a9_dave.urdf.xacro
+│   │   │   ├── rexrov_dave.urdf.xacro
 │   │   │   └── sensor.xacro
 │   │   ├── worlds/
 │   │   │   ├── dave_ocean_waves_fixed.world
@@ -91,6 +112,8 @@ ros2 launch model start_rexrov.launch.py gui:=true
 
 The RexROV launch is a Humble/Fortress port of the RexROV geometry and parameters from UUV Simulator. The original ROS 1/Gazebo Classic plugins are not loaded directly; the model uses Fortress's installed buoyancy, hydrodynamics, thruster, and odometry systems.
 
+The source UUV Simulator package remains useful as the reference for RexROV geometry, mass, inertia, damping, and thruster configuration. Its ROS 1 launch files are not expected to run unchanged on Humble.
+
 ---
 
 ## Key Parameters
@@ -104,6 +127,8 @@ The RexROV launch is a Humble/Fortress port of the RexROV geometry and parameter
 | Surge damping | −8.0 | controller-side linear damping |
 | Pitch damping | −20.0 | controller-side linear damping |
 | Yaw damping | −32.0 | controller-side linear damping |
+
+RexROV demo parameters are kept in `src/tracking_control/config/rexrov_params.yaml`; the Fortress model definition is in `src/model/urdf/rexrov_dave.urdf.xacro`.
 
 ---
 
